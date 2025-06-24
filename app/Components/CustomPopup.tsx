@@ -2,6 +2,7 @@
 import React from 'react';
 import styles from '../styling/ClubCard.module.css';
 import Triangle from '../ui/triangle';
+import { LayoutMode } from './OpenStreetMap';
 
 interface Club {
     name: string;
@@ -12,6 +13,7 @@ interface Club {
 interface CustomPopupProps {
     club: Club;
     clubIndex: string;
+    layoutMode: LayoutMode;
     onClose: () => void;
     switchNextClub: () => void;
     switchPreviousClub: () => void;
@@ -23,11 +25,12 @@ const CustomPopup: React.FC<CustomPopupProps> = ({
     switchNextClub,
     switchPreviousClub,
     clubIndex,
+    layoutMode,
 }) => {
     return (
-        <div className={styles.customPopup}>
+        <div className={`${styles.customPopup} ${layoutMode === 'horizontal' ? styles.horizontalPopup : styles.verticalPopup}`}>
             <div className={styles.popupOverlay} onClick={onClose}></div>
-            <div className={styles.mapCardContainer}>
+            <div className={`${styles.mapCardContainer} ${layoutMode === 'horizontal' ? styles.horizontalCardContainer : styles.verticalCardContainer}`}>
                 <button className={styles.closeButton} onClick={onClose}>
                     ×
                 </button>

@@ -1,5 +1,5 @@
 'use client';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { MapContainer, TileLayer } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L, { Map } from 'leaflet';
@@ -15,20 +15,16 @@ export type Club = {
     description?: string;
 };
 
-const customIcon: L.Icon<L.IconOptions> = L.icon({
-    iconUrl: '../data/marker-icon.png',
-    shadowUrl: '../data/marker-shadow.png',
-
-    iconSize: [38, 38], // size of the icon
-    iconAnchor: [19, 37], // point of the icon which will correspond to marker's location
-    popupAnchor: [-3, -36], // point from which the popup should open relative to the iconAnchor
-});
+export type LayoutMode = 'vertical' | 'horizontal';
 
 const OpenStreetMap: React.FC = () => {
     const mainMapRef = useRef(null);
     const [map, setMap] = useState<Map | null>(null);
     const [selectedClub, setSelectedClub] = useState<Club | null>(null);
     const [clubIndex, setClubIndex] = useState<number | null>(null);
+    const [isMounted, setIsMounted] = useState(false);
+    const [mapId] = useState(() => `map-${Date.now()}-${Math.random()}`);
+    const [layoutMode, setLayoutMode] = useState<LayoutMode>('vertical');
     const [centerCoords, setCenterCoords] = useState<{
         lat: number;
         lng: number;
@@ -36,6 +32,20 @@ const OpenStreetMap: React.FC = () => {
         lat: 52.51664,
         lng: 13.40828,
     });
+
+    // Ensure component only renders after hydration is complete
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
+    // Cleanup map on unmount
+    useEffect(() => {
+        return () => {
+            if (map) {
+                map.remove();
+            }
+        };
+    }, [map]);
 
     const clubs: Club[] = [
         {
@@ -72,38 +82,66 @@ const OpenStreetMap: React.FC = () => {
             : clubs[clubIndex - 1];
     }
 
+    // Prevent rendering until after hydration and ensure we're in browser
+    if (!isMounted || typeof window === 'undefined') {
+        return <div style={{ height: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Loading map...</div>;
+    }
+
+    // Create custom icon only after all checks pass
+    const customIcon = L.icon({
+        iconUrl: '../data/marker-icon.png',
+        shadowUrl: '../data/marker-shadow.png',
+        iconSize: [38, 38], // size of the icon
+        iconAnchor: [19, 37], // point of the icon which will correspond to marker's location
+        popupAnchor: [-3, -36], // point from which the popup should open relative to the iconAnchor
+    });
+
     return (
-        <div className={styles.mapContainer} ref={mainMapRef}>
-            <MapContainer
-                key={0}
-                center={centerCoords}
-                zoom={zoom}
-                style={{ height: '100%', width: '100%' }}
-                ref={setMap}
+        <div className={`${styles.mapContainer} ${layoutMode === 'horizontal' ? styles.horizontalLayout : styles.verticalLayout}`} ref={mainMapRef}>
+            {/* Layout Toggle Button */}
+            <button
+                className={styles.layoutToggleButton}
+                onClick={() => setLayoutMode(layoutMode === 'vertical' ? 'horizontal' : 'vertical')}
+                title={`Switch to ${layoutMode === 'vertical' ? 'horizontal' : 'vertical'} layout`}
             >
-                <TileLayer
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                />
-                {clubs.map((club, index) => (
-                    <CustomMarker
-                        index={index}
-                        location={club.geoLocation}
-                        customIcon={customIcon}
-                        clickedOnMarker={() => {
-                            jumpToMarker(
-                                map,
-                                mainMapRef,
-                                club,
-                                clubs,
-                                setSelectedClub,
-                                setCenterCoords,
-                                setClubIndex
-                            );
-                        }}
-                    />
-                ))}
-            </MapContainer>
+                {layoutMode === 'vertical' ? '⟷' : '⟺'}
+            </button>
+
+            <div className={styles.mapSection}>
+                <div id={mapId} style={{ height: '100%', width: '100%' }}>
+                    <MapContainer
+                        center={centerCoords}
+                        zoom={zoom}
+                        style={{ height: '100%', width: '100%' }}
+                        ref={setMap}
+                    >
+                        <TileLayer
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        />
+                        {clubs.map((club, index) => (
+                            <CustomMarker
+                                key={index}
+                                index={index}
+                                location={club.geoLocation}
+                                customIcon={customIcon}
+                                clickedOnMarker={() => {
+                                    jumpToMarker(
+                                        map,
+                                        mainMapRef,
+                                        club,
+                                        clubs,
+                                        setSelectedClub,
+                                        setCenterCoords,
+                                        setClubIndex
+                                    );
+                                }}
+                            />
+                        ))}
+                    </MapContainer>
+                </div>
+            </div>
+
             {selectedClub && (
                 <CustomPopup
                     clubIndex={
@@ -112,6 +150,7 @@ const OpenStreetMap: React.FC = () => {
                             clubs.length) as string
                     }
                     club={selectedClub}
+                    layoutMode={layoutMode}
                     onClose={() => setSelectedClub(null)}
                     switchNextClub={() => {
                         const nextClub: Club = getNextClub(clubIndex!, clubs);

@@ -28,6 +28,53 @@
     padding: 0; /* Remove any default padding */
     z-index: 1003;
   }
+
+  /* Layout Toggle Button */
+  .layoutToggleButton {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1004;
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #333;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+  }
+
+  .layoutToggleButton:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: scale(1.05);
+  }
+
+  /* Vertical Layout (Default) */
+  .verticalLayout {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .verticalLayout .mapSection {
+    height: 100%;
+    width: 100%;
+  }
+
+  /* Horizontal Layout */
+  .horizontalLayout {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .horizontalLayout .mapSection {
+    height: 100%;
+    width: 67%; /* Map takes 2/3 of the width */
+  }
+
+  .mapSection {
+    position: relative;
+  }
   
   .customPopup {
     position: absolute;
@@ -40,6 +87,23 @@
     align-items: center;
     z-index: 1000; /* Ensure the popup is on top of the map */
     background-color: rgba(0, 0, 0, 0.5); /* Optional: Add a semi-transparent background */
+  }
+
+  /* Vertical Popup (Default) */
+  .verticalPopup {
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80%;
+  }
+
+  /* Horizontal Popup */
+  .horizontalPopup {
+    top: 0;
+    right: 0;
+    width: 33%; /* Takes 1/3 of the width */
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
   }
   
   .popupOverlay {
@@ -64,6 +128,19 @@
     flex-direction: column;
     z-index: 1001; /* Ensure the card is on top of everything */
     height: 90%;
+  }
+
+  /* Vertical Card Container (Default) */
+  .verticalCardContainer {
+    max-width: 90%;
+    height: 90%;
+  }
+
+  /* Horizontal Card Container */
+  .horizontalCardContainer {
+    max-width: 95%;
+    height: 95%;
+    margin: auto;
   }
   
   .closeButton {
