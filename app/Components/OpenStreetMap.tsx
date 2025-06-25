@@ -7,6 +7,7 @@ import styles from '../styling/ClubCard.module.css';
 import CustomPopup from './CustomPopup'; // Import the custom popup component
 import CustomMarker from './CustomMarker';
 import jumpToMarker from '../helpers/jumpToMarker';
+import MapErrorBoundary from './MapErrorBoundary';
 
 export type Club = {
     name: string;
@@ -109,36 +110,44 @@ const OpenStreetMap: React.FC = () => {
 
             <div className={styles.mapSection}>
                 <div id={mapId} style={{ height: '100%', width: '100%' }}>
-                    <MapContainer
-                        center={centerCoords}
-                        zoom={zoom}
-                        style={{ height: '100%', width: '100%' }}
-                        ref={setMap}
+                    <MapErrorBoundary 
+                        level="component"
+                        onError={(error, errorInfo) => {
+                            console.error('Map component error:', error, errorInfo);
+                            // Could send to analytics service
+                        }}
                     >
-                        <TileLayer
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        />
-                        {clubs.map((club, index) => (
-                            <CustomMarker
-                                key={index}
-                                index={index}
-                                location={club.geoLocation}
-                                customIcon={customIcon}
-                                clickedOnMarker={() => {
-                                    jumpToMarker(
-                                        map,
-                                        mainMapRef,
-                                        club,
-                                        clubs,
-                                        setSelectedClub,
-                                        setCenterCoords,
-                                        setClubIndex
-                                    );
-                                }}
+                        <MapContainer
+                            center={centerCoords}
+                            zoom={zoom}
+                            style={{ height: '100%', width: '100%' }}
+                            ref={setMap}
+                        >
+                            <TileLayer
+                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                             />
-                        ))}
-                    </MapContainer>
+                            {clubs.map((club, index) => (
+                                <CustomMarker
+                                    key={index}
+                                    index={index}
+                                    location={club.geoLocation}
+                                    customIcon={customIcon}
+                                    clickedOnMarker={() => {
+                                        jumpToMarker(
+                                            map,
+                                            mainMapRef,
+                                            club,
+                                            clubs,
+                                            setSelectedClub,
+                                            setCenterCoords,
+                                            setClubIndex
+                                        );
+                                    }}
+                                />
+                            ))}
+                        </MapContainer>
+                    </MapErrorBoundary>
                 </div>
             </div>
 

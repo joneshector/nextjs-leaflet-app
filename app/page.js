@@ -1,5 +1,6 @@
 'use client'
 import dynamic from 'next/dynamic';
+import MapErrorBoundary from '@/app/Components/MapErrorBoundary';
 
 const DynamicOpenStreetMap = dynamic(
     () => import('@/app/Components/OpenStreetMap'),
@@ -24,7 +25,15 @@ const DynamicOpenStreetMap = dynamic(
 export default function Home() {
     return (
         <main className="flex min-h-screen flex-col items-center justify-between p-24">
-            <DynamicOpenStreetMap />
+            <MapErrorBoundary 
+                level="page"
+                onError={(error, errorInfo) => {
+                    // Log to external service in production
+                    console.error('Page-level map error:', error, errorInfo);
+                }}
+            >
+                <DynamicOpenStreetMap />
+            </MapErrorBoundary>
         </main>
     );
 }
