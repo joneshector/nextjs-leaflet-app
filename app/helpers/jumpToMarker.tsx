@@ -24,7 +24,7 @@ This function and offsetMapCenter.tsx were created using a combination of:
 export default function jumpToMarker(
     map: Map | null,
     mainMapRef: any,
-    nextClub: Club,
+    nextClubIndex: number,
     clubs: Club[],
     setSelectedClub: any,
     setCenterCoords: any,
@@ -32,6 +32,8 @@ export default function jumpToMarker(
 ) {
     const targetZoom: number = map!.getZoom();
     const overlayHeight: number = mainMapRef.current.offsetHeight;
+
+    const nextClub = clubs[nextClubIndex];
 
     const offsetTargetLatLng = offsetMapCenter(
         targetZoom,

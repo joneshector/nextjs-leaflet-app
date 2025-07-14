@@ -14,7 +14,7 @@ describe('jumpToMarker', () => {
   let mockSetCenterCoords: jest.Mock;
   let mockSetClubIndex: jest.Mock;
   let clubs: Club[];
-  let nextClub: Club;
+  let nextClubID: number;
 
   beforeEach(() => {
     mockMap = {
@@ -45,7 +45,7 @@ describe('jumpToMarker', () => {
       },
     ];
 
-    nextClub = clubs[0];
+    nextClubID = 0;
 
     mockOffsetMapCenter.mockReturnValue({
       lat: 52.5,
@@ -59,7 +59,7 @@ describe('jumpToMarker', () => {
     jumpToMarker(
       mockMap,
       mockMainMapRef,
-      nextClub,
+      nextClubID,
       clubs,
       mockSetSelectedClub,
       mockSetCenterCoords,
@@ -71,7 +71,7 @@ describe('jumpToMarker', () => {
       13, // targetZoom
       400, // overlayHeight
       mockMap,
-      nextClub.geoLocation
+      clubs[nextClubID].geoLocation
     );
 
     // Verify map flyTo was called
@@ -81,16 +81,16 @@ describe('jumpToMarker', () => {
     );
 
     // Verify state setters were called
-    expect(mockSetSelectedClub).toHaveBeenCalledWith(nextClub);
+    expect(mockSetSelectedClub).toHaveBeenCalledWith(clubs[nextClubID]);
     expect(mockSetCenterCoords).toHaveBeenCalledWith({
       lat: 52.5,
-      lng: nextClub.geoLocation[1],
+      lng: clubs[nextClubID].geoLocation[1],
     });
     expect(mockSetClubIndex).toHaveBeenCalledWith(0); // Index of first club
   });
 
   it('should find correct club index', () => {
-    const secondClub = clubs[1];
+    const secondClub = 1;
 
     jumpToMarker(
       mockMap,
@@ -111,7 +111,7 @@ describe('jumpToMarker', () => {
     jumpToMarker(
       mockMap,
       mockMainMapRef,
-      nextClub,
+      nextClubID,
       clubs,
       mockSetSelectedClub,
       mockSetCenterCoords,
@@ -122,7 +122,7 @@ describe('jumpToMarker', () => {
       13,
       600, // Updated overlay height
       mockMap,
-      nextClub.geoLocation
+      clubs[nextClubID].geoLocation
     );
   });
 
@@ -132,7 +132,7 @@ describe('jumpToMarker', () => {
     jumpToMarker(
       mockMap,
       mockMainMapRef,
-      nextClub,
+      nextClubID,
       clubs,
       mockSetSelectedClub,
       mockSetCenterCoords,
@@ -143,7 +143,7 @@ describe('jumpToMarker', () => {
       15, // Updated zoom level
       400,
       mockMap,
-      nextClub.geoLocation
+      clubs[nextClubID].geoLocation
     );
 
     expect(mockMap.flyTo).toHaveBeenCalledWith(

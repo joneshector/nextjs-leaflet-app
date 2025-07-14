@@ -1,210 +1,228 @@
 .container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    padding: 20px;
-    margin-bottom: auto;
-  }
-  
-  .card {
-    width: 300px;
-    height: 400px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    object-fit: contain;
-  }
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+  margin-bottom: auto;
+}
 
-  .mapContainer {
-    position: relative;
-    height: 100vh;
-    width: 100vw;
-    left: 0; /* Ensure it starts from the very left */
-    right: 0;
-    top: 0; /* Ensure it starts from the very top */
-    margin: 0; /* Remove any default margin */
-    padding: 0; /* Remove any default padding */
-    z-index: 1003;
-  }
+.card {
+  width: 300px;
+  height: 400px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  object-fit: contain;
+}
 
-  /* Layout Toggle Button */
-  .layoutToggleButton {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    z-index: 1004;
-    background: rgba(255, 255, 255, 0.9);
-    border: 2px solid #333;
-    border-radius: 8px;
-    padding: 8px 12px;
-    font-size: 18px;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-  }
+.mapContainer {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  left: 0;
+  right: 0;
+  top: 0;
+  margin: 0;
+  padding: 0;
+  z-index: 1003;
+  overflow: hidden; /* Prevent scrollbars and black edges */
+}
 
-  .layoutToggleButton:hover {
-    background: rgba(255, 255, 255, 1);
-    transform: scale(1.05);
-  }
+/* Layout Toggle Button */
+.layoutToggleButton {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1004;
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid #333;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
 
-  /* Vertical Layout (Default) */
-  .verticalLayout {
-    display: flex;
-    flex-direction: column;
-  }
+.layoutToggleButton:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: scale(1.05);
+}
 
-  .verticalLayout .mapSection {
-    height: 100%;
-    width: 100%;
-  }
+/* Vertical Layout (Default) */
+.verticalLayout {
+  display: flex;
+  flex-direction: column;
+}
 
-  /* Horizontal Layout */
-  .horizontalLayout {
-    display: flex;
-    flex-direction: row;
-  }
+.verticalLayout .mapSection {
+  height: 100%;
+  width: 100%;
+}
 
-  .horizontalLayout .mapSection {
-    height: 100%;
-    width: 67%; /* Map takes 2/3 of the width */
-  }
+/* Horizontal Layout */
+.horizontalLayout {
+display: flex;
+flex-direction: row;
+width: 100vw; /* Ensure full width */
+height: 100vh; /* Ensure full height */
+}
 
-  .mapSection {
-    position: relative;
-  }
-  
-  .customPopup {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 80%; /* Cover the bottom half of the map */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000; /* Ensure the popup is on top of the map */
-    background-color: rgba(0, 0, 0, 0.5); /* Optional: Add a semi-transparent background */
-  }
+.horizontalLayout .mapSection {
+height: 100vh; /* Full viewport height */
+width: 100vw;
+flex-shrink: 0; /* Prevent shrinking */
+}
 
-  /* Vertical Popup (Default) */
-  .verticalPopup {
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 80%;
-  }
+.mapSection {
+  position: relative;
+}
 
-  /* Horizontal Popup */
-  .horizontalPopup {
-    top: 0;
-    right: 0;
-    width: 33%; /* Takes 1/3 of the width */
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.3);
-  }
-  
-  .popupOverlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: transparent; /* Make the overlay transparent */
-    z-index: 999; /* Ensure the overlay is behind the popup content */
-  }
-  
-  .mapCardContainer {
-    position: relative;
-    max-width: 90%;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    padding: 16px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    z-index: 1001; /* Ensure the card is on top of everything */
-    height: 90%;
-  }
+.customPopup {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 80%; /* Cover the bottom half of the map */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure the popup is on top of the map */
+  background-color: rgba(0, 0, 0, 0.5); /* Optional: Add a semi-transparent background */
+}
 
-  /* Vertical Card Container (Default) */
-  .verticalCardContainer {
-    max-width: 90%;
-    height: 90%;
-  }
+/* Vertical Popup (Default) */
+.verticalPopup {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 80%;
+}
 
-  /* Horizontal Card Container */
-  .horizontalCardContainer {
-    max-width: 95%;
-    height: 95%;
-    margin: auto;
-  }
-  
-  .closeButton {
-    position: absolute;
-    top: 8px;
-    left: 8px;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-  }
+/* Horizontal Popup */
+.horizontalPopup {
+  top: 0;
+  right: 0;
+  width: 33%;
+  height: 100vh; /* Full viewport height */
+  background-color: rgba(0, 0, 0, 0.3);
+}
 
-  .nextButton {
-    position: absolute;
-    bottom: 8px;
-    left: 8px;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-  }
-  
-  .mapCardLink {
-    text-decoration: none;
-    color: inherit;
-  }
-  
-  .mapCard {
-    max-width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .mapCardImage {
-    height: 250px;
-    object-fit: contain;
-    padding: 5px;
-    border-radius: 8px;
-  }
-  
-  .mapCardContent {
-    margin-top: 16px;
-    text-align: center;
-    width: 80%;
-  }
-  
-  .mapCardTitle {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 8px;
-  }
-  
-  .mapCardOfferings {
-    font-size: 1rem;
-    color: #666;
-    overflow: hidden; /* Ensures overflow is hidden */
-    text-overflow: ellipsis; /* Adds ellipses at the end of the text */
-    display: -webkit-box;
-    -webkit-line-clamp: 2; /* Number of lines to show */
-    -webkit-box-orient: vertical;    
-    width: 100%; /* Ensure the element takes full width for truncation to apply correctly */
-  }
+.popupOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent; /* Make the overlay transparent */
+  z-index: 999; /* Ensure the overlay is behind the popup content */
+}
 
+.mapCardContainer {
+  position: relative;
+  width: 33%;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
+  /* Ensure the card is on top of everything  display: flex; */
+  flex-direction: column;
+  z-index: 1001; /* Ensure the card is on top of everything */
+  height: 90%;
+}
+
+/* Vertical Card Container (Default) */
+.verticalCardContainer {
+  width: 25%;
+  height: 90%;
+}
+
+/* Horizontal Card Container */
+.horizontalCardContainer {
+  width: 80%;
+  height: 95%;
+}
+
+.closeButton {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.nextButton {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.mapCardLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+.mapCard {
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mapCardImage {
+  height: 250px;
+  object-fit: contain;
+  padding: 5px;
+  border-radius: 8px;
+}
+
+.mapCardContent {
+  margin-top: 16px;
+  text-align: center;
+  width: 80%;
+  overflow: hidden; /* Ensures overflow is hidden */
+}
+
+.mapCardTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  overflow: hidden; /* Ensures overflow is hidden */
+}
+
+.mapCardOfferings {
+  font-size: 1rem;
+  color: #666;
+  overflow: hidden; /* Ensures overflow is hidden */
+  text-overflow: ellipsis; /* Adds ellipses at the end of the text */
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Number of lines to show */
+  -webkit-box-orient: vertical;
+  /* width: 100%; Ensure the element takes full width for truncation to apply correctly */
+}
+
+.mapCardDescription {
+  font-size: 1rem;
+  color: #666;
+  width: 100%;
+  height: 80%; /* Adjust this height to control the vertical space */
+  line-height: 1.5rem; /* Adjust to match font size and desired spacing */
+  overflow: hidden; /* Ensures overflow is hidden */
+  text-overflow: ellipsis; /* Adds ellipses at the end of the text */
+  display: -webkit-box;
+  -webkit-line-clamp: 5; /* Number of lines to show */
+  -webkit-box-orient: vertical;
+}
+
+
+@media only screen and (max-width: 650px) {
   .mapCardDescription {
     font-size: 1rem;
     color: #666;
@@ -217,63 +235,458 @@
     -webkit-line-clamp: 5; /* Number of lines to show */
     -webkit-box-orient: vertical;
   }
+}
 
-
-  @media only screen and (max-width: 650px) {
-    .mapCardDescription {
-      font-size: 1rem;
-      color: #666;
-      width: 100%;
-      height: 80%; /* Adjust this height to control the vertical space */
-      line-height: 1.5rem; /* Adjust to match font size and desired spacing */
-      overflow: hidden; /* Ensures overflow is hidden */
-      text-overflow: ellipsis; /* Adds ellipses at the end of the text */
-      display: -webkit-box;
-      -webkit-line-clamp: 5; /* Number of lines to show */
-      -webkit-box-orient: vertical;
-    }
-  }
-
-  @media only screen and (max-width: 375px) {
-    .mapCardDescription {
-      font-size: 0.9rem;
-      color: #666;
-      width: 100%;
-      height: 80%; /* Adjust this height to control the vertical space */
-      line-height: 1.5rem; /* Adjust to match font size and desired spacing */
-      overflow: hidden; /* Ensures overflow is hidden */
-      text-overflow: ellipsis; /* Adds ellipses at the end of the text */
-      display: -webkit-box;
-      -webkit-line-clamp: 3; /* Number of lines to show */
-      -webkit-box-orient: vertical;
-    }
-  }
-
-  
-  .cardNumber {
-    font-size: 16px;
-    color: #555;
-  }
-  
-  .cardImage {
-    width: 150px;
-    height: 150px;
-    object-fit: contain;
-    padding: 5px;
-  }
-
-  .cardContent {
-    padding: 15px;
-  }
-  
-  .cardTitle {
-    font-size: 20px;
-    color: #333;
-    margin: 0 0 10px 0;
-  }
-  
-  .cardDescription {
-    font-size: 16px;
+@media only screen and (max-width: 375px) {
+  .mapCardDescription {
+    font-size: 0.9rem;
     color: #666;
-    margin: 0;
+    width: 100%;
+    height: 80%; /* Adjust this height to control the vertical space */
+    line-height: 1.5rem; /* Adjust to match font size and desired spacing */
+    overflow: hidden; /* Ensures overflow is hidden */
+    text-overflow: ellipsis; /* Adds ellipses at the end of the text */
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Number of lines to show */
+    -webkit-box-orient: vertical;
   }
+}
+
+
+.cardNumber {
+  font-size: 16px;
+  color: #555;
+}
+
+.cardImage {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  padding: 5px;
+}
+
+.cardContent {
+  padding: 15px;
+}
+
+.cardTitle {
+  font-size: 20px;
+  color: #333;
+  margin: 0 0 10px 0;
+}
+
+.cardDescription {
+  font-size: 16px;
+  color: #666;
+  margin: 0;
+}
+
+/* Arrow button positioning */
+.leftArrowButton {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1002;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+}
+
+.rightArrowButton {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1002;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+}
+
+.leftArrowButton:hover,
+.rightArrowButton:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* Club index indicator */
+.clubIndexIndicator {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  padding: 4px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  z-index: 1002;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Search Bar Styles */
+.searchContainer {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 1004;
+  width: 300px;
+  max-width: calc(100vw - 120px);
+}
+
+.searchInputContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 12px 16px;
+  padding-right: 40px;
+  font-size: 16px;
+  border: 2px solid #ddd;
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  outline: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  color: #333 !important;
+}
+
+.searchInput:focus {
+  border-color: #4a9eff;
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 4px 20px rgba(74, 158, 255, 0.2);
+}
+
+.searchInput::placeholder {
+  color: #777676;
+  font-style: italic;
+}
+
+.searchIcon {
+  position: absolute;
+  right: 12px;
+  font-size: 18px;
+  color: #666;
+  pointer-events: none;
+}
+
+.searchDropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(10px);
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  margin-top: 4px;
+  max-height: 250px;
+  overflow-y: auto;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  z-index: 1005;
+}
+
+.searchResultItem {
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.searchResultItem:last-child {
+  border-bottom: none;
+}
+
+.searchResultItem:hover,
+.searchResultSelected {
+  background: linear-gradient(135deg, #4a9eff 0%, #6bb6ff 100%);
+  color: white;
+}
+
+.searchResultSelected .searchResultScore {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.searchResultName {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.searchResultDescription {
+  font-size: 12px;
+  color: #666;
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+
+.searchResultSelected .searchResultDescription {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.searchResultScore {
+  font-size: 10px;
+  color: #999;
+  font-weight: 500;
+}
+
+.searchHighlight {
+  background: rgba(255, 235, 59, 0.6);
+  padding: 1px 2px;
+  border-radius: 2px;
+  font-weight: 600;
+}
+
+.searchResultSelected .searchHighlight {
+  background: rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+/* Responsive adjustments */
+@media only screen and (max-width: 650px) {
+  .searchContainer {
+    width: calc(100vw - 40px);
+    max-width: none;
+  }
+  
+  .searchInput {
+    font-size: 14px;
+    padding: 10px 14px;
+    padding-right: 36px;
+  }
+  
+  .searchIcon {
+    right: 10px;
+    font-size: 16px;
+  }
+  
+  .searchResultItem {
+    padding: 10px 12px;
+  }
+  
+  .searchResultName {
+    font-size: 13px;
+  }
+  
+  .searchResultDescription {
+    font-size: 11px;
+  }
+}
+
+/* Clubs List Styles */
+.clubsListContainer {
+  width: calc(100vw / 4);
+  height: 100vh;
+  background-color: white;
+  border-left: 2px solid #e1e5e9;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 1005;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.clubsListSearchSection {
+  padding: 16px;
+  border-bottom: 1px solid #e1e5e9;
+  background-color: #f8f9fa;
+  position: sticky;
+  top: 0;
+  z-index: 1007;
+  flex-shrink: 0;
+}
+
+/* Override search bar styles when inside clubs list */
+.clubsListSearchSection .searchContainer {
+  position: relative;
+  top: auto;
+  left: auto;
+  width: 100%;
+  max-width: none;
+}
+
+.clubsListSearchSection .searchInput {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.clubsListHeader {
+  padding: 16px 16px 12px 16px;
+  border-bottom: 1px solid #e1e5e9;
+  background-color: #f8f9fa;
+  position: sticky;
+  top: 0;
+  z-index: 1006;
+  flex-shrink: 0;
+}
+
+.clubsListHeader h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
+}
+
+.clubsListContent {
+  padding: 8px 0;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.clubsListItem {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  background-color: white;
+  min-height: 100px;
+}
+
+.clubsListItem:hover {
+  background-color: rgba(87, 87, 87, 0.1);
+}
+
+.clubsListItemSelected {
+  background-color: rgba(87, 87, 87, 0.1) !important;
+}
+
+.clubsListItemSelected:hover {
+  background-color: rgba(87, 87, 87, 0.1) !important;
+}
+
+.clubsListItemContent {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 16px;
+  height: 100%;
+  min-height: 100px;
+}
+
+.clubsListItemNumber {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: #007bff;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-right: 16px;
+}
+
+.clubsListItemSelected .clubsListItemNumber {
+  background-color: #2196f3;
+}
+
+.clubsListItemInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.clubsListItemName {
+  margin: 0 0 6px 0;
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: #454545;
+  line-height: 1.3;
+  word-wrap: break-word;
+}
+
+.clubsListItemDescription {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #666;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+}
+
+/* Adjust map container to make room for clubs list */
+.mapContainerWithList {
+  width: calc(100vw * 3 / 4);
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Mobile responsiveness for clubs list */
+@media only screen and (max-width: 768px) {
+  .clubsListContainer {
+    width: 45vw;
+  }
+  
+  .mapContainerWithList {
+    width: 55vw;
+  }
+  
+  .clubsListHeader h3 {
+    font-size: 1rem;
+  }
+  
+  .clubsListItem {
+    padding: 10px 12px;
+  }
+  
+  .clubsListItemName {
+    font-size: 0.85rem;
+  }
+  
+  .clubsListItemDescription {
+    font-size: 0.7rem;
+  }
+  
+  .clubsListSearchSection {
+    padding: 12px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .clubsListContainer {
+    width: 50vw;
+  }
+  
+  .mapContainerWithList {
+    width: 50vw;
+  }
+  
+  .clubsListSearchSection {
+    padding: 8px;
+  }
+}

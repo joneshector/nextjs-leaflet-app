@@ -39,9 +39,10 @@ jest.mock('../../Components/CustomPopup', () => {
 
 // Mock the helper functions
 jest.mock('../../helpers/jumpToMarker', () => {
-  return jest.fn((map, mapRef, club, clubs, setSelectedClub, setCenterCoords, setClubIndex) => {
+  return jest.fn((map, mapRef, clubIndex, clubs, setSelectedClub, setCenterCoords, setClubIndex) => {
     // Simulate the actual behavior of jumpToMarker
-    const clubIndex = clubs.findIndex((c: any) => c.slug === club.slug);
+    // clubIndex is a number (index), not a club object
+    const club = clubs[clubIndex];
     setSelectedClub(club);
     setClubIndex(clubIndex);
   });
@@ -102,7 +103,7 @@ describe('OpenStreetMap', () => {
     await new Promise(resolve => setTimeout(resolve, 0));
     
     const markers = getAllByTestId('custom-marker');
-    expect(markers).toHaveLength(3); // Based on the clubs array in the component
+    expect(markers).toHaveLength(21); // Based on the clubs array in the component
   });
 
   test('displays a custom popup component when any map marker is clicked by the user', async () => {
